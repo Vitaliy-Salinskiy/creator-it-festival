@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
 
@@ -21,6 +22,8 @@ export const POST = async (req: NextRequest) => {
     if (!newUser) {
       return NextResponse.json({ message: "Bad Request" }, { status: 400 });
     }
+
+    revalidatePath("/users", "page");
 
     return NextResponse.json({ newUser }, { status: 201 });
   } catch (error) {

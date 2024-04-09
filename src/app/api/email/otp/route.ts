@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import nodemailer from "nodemailer";
 import otpGenerator from "otp-generator";
+import bcrypt from "bcryptjs";
 
 import { monthNames } from "@/constants";
 
@@ -165,7 +166,9 @@ export const POST = async (req: NextRequest) => {
 
     const mail = await transpoerter.sendMail(mailOptions);
 
-    cookies().set("otp", otp, { maxAge: 5 * 60 * 1000, httpOnly: true });
+    const hashedOtp = await bcrypt.hash(otp, 10);
+
+    cookies().set("otp", hashedOtp, { maxAge: 5 * 60 * 1000, httpOnly: true });
 
     return NextResponse.json({ mail }, { status: 200 });
   } catch (error) {

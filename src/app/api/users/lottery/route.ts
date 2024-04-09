@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 import { prisma } from "@/lib/prisma";
 
 export const POST = async (_req: NextRequest) => {
+  const { SMTP_PASSWORD, SMTP_EMAIL } = process.env;
+
   try {
     const potentialWinners = await prisma.user.findMany({
       where: {
@@ -28,6 +31,23 @@ export const POST = async (_req: NextRequest) => {
         hasWon: true,
       },
     });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: SMTP_EMAIL,
+        pass: SMTP_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: SMTP_EMAIL,
+      to: updatedWinner.email,
+      subject: `Hey ${updatedWinner.name}, you have won the lottery`,
+      html: `<h1>Congratulations ${updatedWinner.name}!</h1><p>You have won the lottery</p>`,
+    };
+
+    const mail = await transporter.sendMail(mailOptions);
 
     return NextResponse.json({ winner: updatedWinner }, { status: 200 });
   } catch (error) {

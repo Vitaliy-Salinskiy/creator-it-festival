@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import bcrypt from "bcryptjs";
 
 export const POST = async (req: NextRequest) => {
   const { otp } = await req.json();
@@ -9,23 +10,23 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
-    const otpFromCookie = cookies().get("otp")?.value;
+    const hashedOtpFromCookie = cookies().get("otp")?.value;
 
-    if (!otpFromCookie) {
+    if (!hashedOtpFromCookie) {
       return NextResponse.json(
         { message: "Session expired. Please try again." },
         { status: 401 }
       );
     }
 
-    if (otp !== otpFromCookie) {
+    const isValidOtp = await bcrypt.compare(otp, hashedOtpFromCookie);
+
+    if (!isValidOtp) {
       return NextResponse.json({ message: "Invalid OTP" }, { status: 401 });
     }
 
-    if (otp === otpFromCookie) {
-      cookies().delete("otp");
-      return NextResponse.redirect(new URL("/users", req.url), { status: 302 });
-    }
+    cookies().delete("otp");
+    return NextResponse.redirect(new URL("/users", req.url), { status: 302 });
   } catch (error) {
     return NextResponse.json(
       { message: (error as Error).message },
