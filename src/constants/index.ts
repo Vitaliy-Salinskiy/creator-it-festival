@@ -22,7 +22,11 @@ export const wheelOptions = [
       uri: "prize-1.png",
       sizeMultiplier: 0.75,
     },
-    value: "stickers",
+    value: {
+      title: "Наліпик /creator",
+      description: "Юра Часник не розуміє для чого вони (поясніть)",
+      img: "prize-1.png",
+    },
   },
   {
     option: "1",
@@ -30,7 +34,11 @@ export const wheelOptions = [
       uri: "prize-1.png",
       sizeMultiplier: 0.75,
     },
-    value: "stickers",
+    value: {
+      title: "Наліпик /creator",
+      description: "Юра Часник не розуміє для чого вони (поясніть)",
+      img: "prize-1.png",
+    },
   },
   {
     option: "2",
@@ -38,7 +46,11 @@ export const wheelOptions = [
       uri: "prize-1.png",
       sizeMultiplier: 0.75,
     },
-    value: "stickers",
+    value: {
+      title: "Наліпик /creator",
+      description: "Юра Часник не розуміє для чого вони (поясніть)",
+      img: "prize-1.png",
+    },
   },
   {
     option: "3",
@@ -46,7 +58,11 @@ export const wheelOptions = [
       uri: "prize-1.png",
       sizeMultiplier: 0.75,
     },
-    value: "stickers",
+    value: {
+      title: "Наліпик /creator",
+      description: "Юра Часник не розуміє для чого вони (поясніть)",
+      img: "prize-1.png",
+    },
   },
   {
     option: "3",
@@ -54,7 +70,11 @@ export const wheelOptions = [
       uri: "prize-1.png",
       sizeMultiplier: 0.75,
     },
-    value: "stickers",
+    value: {
+      title: "Наліпик /creator",
+      description: "Юра Часник не розуміє для чого вони (поясніть)",
+      img: "prize-1.png",
+    },
   },
   {
     option: "3",
@@ -62,7 +82,11 @@ export const wheelOptions = [
       uri: "prize-1.png",
       sizeMultiplier: 0.75,
     },
-    value: "stickers",
+    value: {
+      title: "Наліпик /creator",
+      description: "Юра Часник не розуміє для чого вони (поясніть)",
+      img: "prize-1.png",
+    },
   },
   {
     option: "3",
@@ -70,7 +94,11 @@ export const wheelOptions = [
       uri: "prize-1.png",
       sizeMultiplier: 0.75,
     },
-    value: "stickers",
+    value: {
+      title: "Наліпик /creator",
+      description: "Юра Часник не розуміє для чого вони (поясніть)",
+      img: "prize-1.png",
+    },
   },
   {
     option: "3",
@@ -78,6 +106,10 @@ export const wheelOptions = [
       uri: "prize-1.png",
       sizeMultiplier: 0.75,
     },
-    value: "stickers",
+    value: {
+      title: "Наліпик /creator",
+      description: "Юра Часник не розуміє для чого вони (поясніть)",
+      img: "prize-1.png",
+    },
   },
 ];
