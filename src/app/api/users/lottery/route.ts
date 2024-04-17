@@ -2,14 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
-export const POST = async (_req: NextRequest) => {
+export const POST = async (req: NextRequest) => {
   const { SMTP_PASSWORD, SMTP_EMAIL } = process.env;
+
+  const { prizeName, prizeImage }: { prizeName: string; prizeImage: string } =
+    await req.json();
+
+  if (!prizeImage || !prizeName) {
+    return NextResponse.json({ message: "Bad Request" }, { status: 400 });
+  }
 
   try {
     const potentialWinners = await prisma.user.findMany({
       where: {
         hasWon: false,
+        emailVerified: true,
       },
     });
 
@@ -23,15 +32,6 @@ export const POST = async (_req: NextRequest) => {
     const randomWinner =
       potentialWinners[Math.floor(Math.random() * potentialWinners.length)];
 
-    const updatedWinner = await prisma.user.update({
-      where: {
-        id: randomWinner.id,
-      },
-      data: {
-        hasWon: true,
-      },
-    });
-
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -42,12 +42,28 @@ export const POST = async (_req: NextRequest) => {
 
     const mailOptions = {
       from: SMTP_EMAIL,
-      to: updatedWinner.email,
-      subject: `Hey ${updatedWinner.name}, you have won the lottery`,
-      html: `<h1>Congratulations ${updatedWinner.name}!</h1><p>You have won the lottery</p>`,
+      to: randomWinner.email,
+      subject: `Hey ${randomWinner.name}, you have won the lottery`,
+      html: `<h1>Congratulations ${randomWinner.name}!</h1><p>You have won the lottery</p>`,
     };
 
-    const mail = await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
+
+    const updatedWinner = await prisma.user.update({
+      where: {
+        id: randomWinner.id,
+      },
+      data: {
+        hasWon: true,
+        prizeImage,
+        prizeName,
+        prizeClaimed: false,
+        prizeWinDate: new Date(),
+      },
+    });
+
+    revalidatePath("/wheel", "page");
+    revalidatePath("/users", "page");
 
     return NextResponse.json({ winner: updatedWinner }, { status: 200 });
   } catch (error) {
