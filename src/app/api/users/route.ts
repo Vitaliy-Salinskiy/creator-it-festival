@@ -26,7 +26,6 @@ export const POST = async (req: NextRequest) => {
     }
 
     revalidatePath("/users", "page");
-    revalidatePath("/wheel", "page");
 
     return NextResponse.json({ newUser }, { status: 201 });
   } catch (error) {

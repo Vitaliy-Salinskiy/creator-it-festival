@@ -30,7 +30,12 @@ const Popup = ({ cardId, isOpen, winnerName }: PopupProps) => {
             <Card card={wheelOptions[cardId].value} />
           </div>
           <div className="relative flex-1 w-[550px] max-w-[550px] h-[380px] max-h-[380px]">
-            <Image fill alt="congratulation" src="/background.png" />
+            <Image
+              fill
+              alt="congratulation"
+              src="/background.png"
+              sizes="(max-width: 600px) 100vw, 600px"
+            />
           </div>
         </div>
       </div>

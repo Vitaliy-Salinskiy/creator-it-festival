@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+
 import nodemailer from "nodemailer";
 import otpGenerator from "otp-generator";
 import bcrypt from "bcryptjs";

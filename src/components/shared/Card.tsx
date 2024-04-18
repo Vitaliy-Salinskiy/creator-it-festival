@@ -10,7 +10,14 @@ const Card = ({ card }: { card: CardProps }) => {
   return (
     <div className="w-[250px] pt-[15px] px-[15px] pb-[25px] bg-light-violet rounded-md flex flex-col">
       <div className="flex-center">
-        <Image width={120} height={120} src={`/${card.img}`} alt={card.title} />
+        <div className="relative w-[120px] h-[120px]">
+          <Image
+            fill
+            src={`/${card.img}`}
+            alt={card.title}
+            sizes="(max-width: 120px) 100vw, 120px"
+          />
+        </div>
       </div>
       <h3 className="text-xl font-bold text-orange mt-[15px]">{card.title}</h3>
       {card.description && (

@@ -100,7 +100,7 @@ body{
   }
 
 
-.orange-gradient {
-  background: linear-gradient(180deg, rgba(188, 165, 255, 0) 0%, #27145a 250%);
-  filter: blur(360px);
+.gradient {
+  background: radial-gradient(#FFFFFF 1%, #1C1E2A 15%);
+  filter: blur(6000px);
 }

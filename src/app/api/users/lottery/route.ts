@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
+
 import nodemailer from "nodemailer";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
 
 export const POST = async (req: NextRequest) => {
   const { SMTP_PASSWORD, SMTP_EMAIL } = process.env;
@@ -62,7 +63,6 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    revalidatePath("/wheel", "page");
     revalidatePath("/users", "page");
 
     return NextResponse.json({ winner: updatedWinner }, { status: 200 });

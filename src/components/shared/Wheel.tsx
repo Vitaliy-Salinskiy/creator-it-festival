@@ -6,8 +6,9 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Wheel as WheelComponent } from "react-custom-roulette";
 
-import { Separator } from "@/components/ui/separator";
 import Timer from "@/components/shared/Timer";
+
+import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
 import { User } from "@prisma/client";
@@ -72,8 +73,10 @@ const Wheel = () => {
 
   return (
     <div className="flex flex-col 2xl:flex-row items-center justify-evenly w-full min-h-screen py-10 2xl:px-0">
+      <div className="fixed gradient inset-0 z-1"></div>
+
       <div
-        className={`relative h-[714px] w-[714px] overflow-hidden transition-transform`}
+        className={`relative h-[714px] w-[714px] overflow-hidden transition-transform z-10`}
       >
         <WheelComponent
           mustStartSpinning={mustSpin}
@@ -110,10 +113,12 @@ const Wheel = () => {
           }}
         />
         <div className="absolute h-[450px] w-[450px] rounded-full bg-dark-violet inset-[132px] z-20 flex-center text-shadow flex-col gap-2.5 text-[40px] leading-[48px] font-bold text-orange">
-          <Image width={200} height={200} src="/present.svg" alt="gift" />
+          <div className="relative w-[200px] h-[200px]">
+            <Image fill src="/present.svg" alt="gift" />
+          </div>
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col z-10">
         <h1 className="text-5xl max-w-[399px] font-bold text-orange">
           Рулетка Creator-Festival
         </h1>
@@ -131,7 +136,9 @@ const Wheel = () => {
             >
               Крутити
               <Separator orientation="vertical" className="h-[12px]" />
-              <Image width={28} height={28} src="/gift.svg" alt="gift" />
+              <div className="relative h-7 w-7">
+                <Image fill src="/gift.svg" alt="gift" />
+              </div>
             </Button>
           </div>
         </div>

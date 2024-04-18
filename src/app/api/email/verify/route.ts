@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+
 import bcrypt from "bcryptjs";
 
 export const POST = async (req: NextRequest) => {

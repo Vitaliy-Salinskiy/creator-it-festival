@@ -1,5 +1,3 @@
-import { WheelData } from "react-custom-roulette/dist/components/Wheel/types";
-
 export const monthNames = [
   "Jan",
   "Feb",
