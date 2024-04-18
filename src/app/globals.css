@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400d;
+  font-style: normal;
+}
 
 @layer base {
   :root {
@@ -73,4 +82,25 @@
     body {
       @apply bg-background text-foreground;
     }
+
+    .app-container{
+      @apply max-w-screen-2xl container mx-auto px-3 lg:px-2 2xl:px-1
+    }
+
+    .flex-center {
+      @apply flex items-center justify-center;
+    }
   }
+
+  .bhdLno{
+    width: 714px !important;
+    height: 714px !important;
+    max-width: 714px !important;
+    max-height: 714px !important;
+  }
+
+
+.orange-gradient {
+  background: linear-gradient(180deg, rgba(188, 165, 255, 0) 0%, #27145a 250%);
+  filter: blur(360px);
+}

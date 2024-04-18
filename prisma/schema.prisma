@@ -8,11 +8,17 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  fingerprintId String
-  email         String
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  fingerprintId String    @unique
+  phoneNumber   String    @unique
+  email         String    @unique
+  emailVerified Boolean   @default(false)
   name          String
-  hasWon        Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  hasWon        Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  prizeName     String?
+  prizeImage    String?
+  prizeWinDate  DateTime?
+  prizeClaimed  Boolean?
 }
