@@ -15,6 +15,7 @@
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "fingerprintjs": "^0.5.3",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.365.0",
     "next": "14.1.4",
@@ -31,10 +32,11 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^20",
+    "@types/fingerprintjs": "^0.5.28",
+    "@types/node": "20.12.7",
     "@types/nodemailer": "^6.4.14",
     "@types/otp-generator": "^4.0.2",
-    "@types/react": "^18",
+    "@types/react": "18.2.78",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
@@ -42,6 +44,6 @@
     "postcss": "^8",
     "prisma": "^5.12.1",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "5.4.5"
   }
 }

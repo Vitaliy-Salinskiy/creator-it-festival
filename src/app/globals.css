@@ -73,4 +73,13 @@
     body {
       @apply bg-background text-foreground;
     }
-  }
+    .appContainer {
+      @apply container px-[20px] py-[20px] w-full h-full max-w-screen-xl;
+    }
+    .auth-input {
+      @apply bg-[#3F3D56] text-white text-[20px] h-[60px] px-[10px] w-full rounded-[5px] outline-none;
+    }
+}
+input[type="text"]:last-child {
+  letter-spacing: 0;
+}
