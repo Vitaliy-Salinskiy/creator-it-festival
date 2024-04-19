@@ -82,25 +82,13 @@ body{
     body {
       @apply bg-background text-foreground;
     }
-
-    .app-container{
-      @apply max-w-screen-2xl container mx-auto px-3 lg:px-2 2xl:px-1
+    .appContainer {
+      @apply container px-[20px] py-[20px] w-full h-full max-w-screen-xl;
     }
-
-    .flex-center {
-      @apply flex items-center justify-center;
+    .auth-input {
+      @apply bg-[#3F3D56] text-white text-[20px] h-[60px] px-[10px] w-full rounded-[5px] outline-none;
     }
-  }
-
-  .bhdLno{
-    width: 714px !important;
-    height: 714px !important;
-    max-width: 714px !important;
-    max-height: 714px !important;
-  }
-
-
-.gradient {
-  background: radial-gradient(#FFFFFF 1%, #1C1E2A 15%);
-  filter: blur(6000px);
+}
+input[type="text"]:last-child {
+  letter-spacing: 0;
 }
