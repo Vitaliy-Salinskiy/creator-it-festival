@@ -1,9 +1,15 @@
 import { cookies } from "next/headers";
-
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
+import Image from "next/image";
+
 import OTPForm from "@/components/shared/OTPForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Creator It Festival | Verify",
+  description: "Verify page",
+};
 
 const VerifyPage = () => {
   const cookieStore = cookies();

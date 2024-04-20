@@ -64,6 +64,7 @@ export const POST = async (req: NextRequest) => {
     });
 
     revalidatePath("/users", "page");
+    revalidatePath("/winners", "page");
 
     return NextResponse.json({ winner: updatedWinner }, { status: 200 });
   } catch (error) {

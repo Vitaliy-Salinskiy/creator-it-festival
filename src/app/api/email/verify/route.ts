@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 
 import bcrypt from "bcryptjs";
 
+import { prisma } from "@/lib/prisma";
+
 export const POST = async (req: NextRequest) => {
   const { otp } = await req.json();
 
@@ -12,8 +14,9 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const hashedOtpFromCookie = cookies().get("otp")?.value;
+    const email = cookies().get("email")?.value;
 
-    if (!hashedOtpFromCookie) {
+    if (!hashedOtpFromCookie || !email) {
       return NextResponse.json(
         { message: "Session expired. Please try again." },
         { status: 401 }
@@ -25,6 +28,11 @@ export const POST = async (req: NextRequest) => {
     if (!isValidOtp) {
       return NextResponse.json({ message: "Invalid OTP" }, { status: 401 });
     }
+
+    await prisma.user.update({
+      where: { email },
+      data: { emailVerified: true },
+    });
 
     cookies().delete("otp");
     return NextResponse.json({ message: "Success" }, { status: 200 });

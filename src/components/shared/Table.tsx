@@ -11,9 +11,10 @@ import { User } from "@prisma/client";
 
 interface TableProps {
   users: User[];
+  forWinners?: boolean;
 }
 
-const Table = ({ users }: TableProps) => {
+const Table = ({ users, forWinners }: TableProps) => {
   const FPId = useFingerprint();
 
   const userTableRef = useRef<{ place: number; date: string } | null>(null);
@@ -52,10 +53,12 @@ const Table = ({ users }: TableProps) => {
 
           return (
             <TableSlot
+              forWinners={forWinners}
               key={index}
               date={formattedDate}
               place={place}
               name={item.name}
+              prizeImage={item.prizeImage!}
               isCurrent={item.fingerprintId === FPId ? true : false}
             />
           );

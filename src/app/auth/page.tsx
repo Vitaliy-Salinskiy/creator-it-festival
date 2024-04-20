@@ -1,6 +1,13 @@
+import { Metadata } from "next";
+
 import Image from "next/image";
 
 import AuthForm from "@/components/shared/AuthForm";
+
+export const metadata: Metadata = {
+  title: "Creator It Festival | Auth",
+  description: "Auth page",
+};
 
 const AuthPage = () => {
   return (
