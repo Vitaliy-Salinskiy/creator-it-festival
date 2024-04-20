@@ -27,7 +27,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     cookies().delete("otp");
-    return NextResponse.redirect(new URL("/users", req.url), { status: 302 });
+    return NextResponse.json({ message: "Success" }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: (error as Error).message },

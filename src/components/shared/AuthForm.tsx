@@ -13,6 +13,7 @@ import { userSchema } from "@/schemas";
 
 const AuthForm = () => {
   const FPId = useFingerprint();
+
   const router = useRouter();
 
   const {
@@ -58,7 +59,7 @@ const AuthForm = () => {
           body: JSON.stringify({ to: data.email }),
         });
 
-        router.push("auth/verify");
+        router.push("/auth/verify");
       } else {
         throw new Error("Registration error");
       }

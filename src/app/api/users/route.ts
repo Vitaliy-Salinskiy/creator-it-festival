@@ -27,7 +27,7 @@ export const POST = async (req: NextRequest) => {
 
     revalidatePath("/users", "page");
 
-    return NextResponse.redirect(new URL("/auth/verify", req.url));
+    return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { message: (error as Error).message },

@@ -170,7 +170,7 @@ export const POST = async (req: NextRequest) => {
     const hashedOtp = await bcrypt.hash(otp, 10);
 
     cookies().set("otp", hashedOtp, { maxAge: 5 * 60 * 1000, httpOnly: true });
-    cookies().set("email", to, { maxAge: 1 * 60 * 60 * 1000, httpOnly: true });
+    cookies().set("email", to, { maxAge: 15 * 60 * 1000, httpOnly: true });
 
     return NextResponse.json({ mail }, { status: 200 });
   } catch (error) {
