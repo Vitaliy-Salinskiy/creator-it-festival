@@ -13,7 +13,7 @@ model User {
   phoneNumber   String    @unique
   email         String    @unique
   emailVerified Boolean   @default(false)
-  name          String
+  name          String    @unique
   hasWon        Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt

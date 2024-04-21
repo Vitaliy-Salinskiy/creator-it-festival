@@ -35,6 +35,11 @@ export const POST = async (req: NextRequest) => {
     });
 
     cookies().delete("otp");
+
+    const hashedToken = await bcrypt.hash("true", 10);
+
+    cookies().set("verifyToken", hashedToken, { maxAge: 6 * 60 * 60 * 1000 });
+
     return NextResponse.json({ message: "Success" }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
