@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 
-import { useRef } from "react";
-import useFingerprint from "@/hooks/useFingerprint";
+import { useEffect, useRef, useState } from "react";
+import { useFingerprint } from "@/hooks/useFingerprint";
 
 import TableSlot from "./TableSlot";
 
@@ -15,9 +15,35 @@ interface TableProps {
 }
 
 const Table = ({ users, forWinners }: TableProps) => {
-  const FPId = useFingerprint();
+  const [localState, setLocalState] = useState(
+    localStorage.getItem("fingerprintId")
+  );
 
+  const { fpId, refresh } = useFingerprint(localState ? localState : undefined);
   const userTableRef = useRef<{ place: number; date: string } | null>(null);
+
+  useEffect(() => {
+    if (!localState) {
+      setLocalState(localStorage.getItem("fingerprintId"));
+    }
+    userTableRef.current = null;
+  }, [localState]);
+
+  useEffect(() => {
+    const refreshFn = async () => {
+      await refresh();
+      setLocalState(fpId);
+    };
+
+    if (localState === null && !fpId) {
+      userTableRef.current = null;
+      refreshFn();
+    }
+
+    if (fpId) {
+      setLocalState(fpId);
+    }
+  }, [fpId, localState, refresh]);
 
   return (
     <>
@@ -30,14 +56,16 @@ const Table = ({ users, forWinners }: TableProps) => {
         </div>
       </div>
 
-      <div className="mt-5 w-full">
-        <TableSlot
-          isCurrent
-          place={userTableRef.current?.place || 0}
-          name="Ви"
-          date={userTableRef.current?.date || "00:00"}
-        />
-      </div>
+      {userTableRef.current && (
+        <div className="mt-5 w-full">
+          <TableSlot
+            isCurrent
+            place={userTableRef.current?.place || 0}
+            name="Ви"
+            date={userTableRef.current?.date || "00:00"}
+          />
+        </div>
+      )}
 
       <div className="w-full h-auto mt-10 flex flex-col-reverse gap-5">
         {users.map((item, index) => {
@@ -47,7 +75,7 @@ const Table = ({ users, forWinners }: TableProps) => {
             .split("T")[1]
             .slice(0, 5);
 
-          if (FPId && item.fingerprintId === FPId) {
+          if (localState && item.fingerprintId === localState) {
             userTableRef.current = { place, date: formattedDate };
           }
 
@@ -59,7 +87,7 @@ const Table = ({ users, forWinners }: TableProps) => {
               place={place}
               name={item.name}
               prizeImage={item.prizeImage!}
-              isCurrent={item.fingerprintId === FPId ? true : false}
+              isCurrent={item.fingerprintId === localState ? true : false}
             />
           );
         })}

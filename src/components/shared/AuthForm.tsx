@@ -7,12 +7,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import useFingerprint from "@/hooks/useFingerprint";
+import { useFingerprint } from "@/hooks/useFingerprint";
 
 import { userSchema } from "@/schemas";
 
 const AuthForm = () => {
-  const FPId = useFingerprint();
+  const { fpId } = useFingerprint();
 
   const router = useRouter();
 
@@ -28,15 +28,15 @@ const AuthForm = () => {
       name: "",
       email: "",
       phoneNumber: "",
-      fingerprintId: FPId,
+      fingerprintId: fpId,
     },
   });
 
   useEffect(() => {
-    if (FPId) {
-      setValue("fingerprintId", FPId);
+    if (fpId) {
+      setValue("fingerprintId", fpId);
     }
-  }, [FPId, setValue]);
+  }, [fpId, setValue]);
 
   const onSubmit = async (data: z.infer<typeof userSchema>) => {
     try {

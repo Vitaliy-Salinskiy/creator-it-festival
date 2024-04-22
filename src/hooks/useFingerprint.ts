@@ -1,24 +1,28 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
-const useFingerprint = () => {
+export const useFingerprint = (currentId?: string) => {
   const [fpId, setFPId] = useState<string>("");
 
-  useEffect(() => {
-    const getFingerprint = async () => {
-      try {
-        const fp = await FingerprintJS.load();
-        const result: any = await fp.get();
+  const getFingerprint = useCallback(async () => {
+    try {
+      const fp = await FingerprintJS.load();
+      const result: any = await fp.get();
+      setFPId(result.visitorId);
+      if (currentId && currentId === result.visitorId) {
+        setFPId(currentId);
+      } else {
         setFPId(result.visitorId);
-      } catch (error) {
-        console.error("Error getting fingerprint:", error);
+        localStorage.setItem("fingerprintId", result.visitorId);
       }
-    };
+    } catch (error) {
+      console.error("Error getting fingerprint:", error);
+    }
+  }, [currentId]);
 
+  useEffect(() => {
     getFingerprint();
-  }, []);
+  }, [getFingerprint]);
 
-  return fpId;
+  return { fpId, refresh: getFingerprint };
 };
-
-export default useFingerprint;
