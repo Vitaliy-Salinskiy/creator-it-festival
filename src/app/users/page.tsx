@@ -28,7 +28,9 @@ const UsersPage = async () => {
         <button className="w-full lg:w-80 h-14 bg-orange rounded-lg flex items-center justify-center mt-[50px]">
           <div className="w-28 h-auto flex items-center justify-around">
             <p className="text-xl text-white font-medium">Призи</p>
-            <Image width={30} height={30} src="/gift.svg" alt="unknown" />
+            <div className="relative h-[30px] w-[30px]">
+              <Image fill src="/gift.svg" alt="unknown" />
+            </div>
           </div>
         </button>
       </div>

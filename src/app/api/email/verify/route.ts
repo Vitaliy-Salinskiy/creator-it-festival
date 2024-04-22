@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export const POST = async (req: NextRequest) => {
   const { otp } = await req.json();
@@ -39,6 +40,9 @@ export const POST = async (req: NextRequest) => {
     const hashedToken = await bcrypt.hash("true", 10);
 
     cookies().set("verifyToken", hashedToken, { maxAge: 6 * 60 * 60 * 1000 });
+
+    revalidatePath("/users", "page");
+    revalidatePath("/winners", "page");
 
     return NextResponse.json({ message: "Success" }, { status: 200 });
   } catch (error) {

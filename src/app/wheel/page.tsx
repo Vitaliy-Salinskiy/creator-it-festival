@@ -1,7 +1,9 @@
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 
 import Wheel from "@/components/shared/Wheel";
 import Popup from "@/components/shared/Popup";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Creator It Festival | Wheel",
@@ -17,6 +19,13 @@ const WheelPage = async ({
     winner?: string;
   };
 }) => {
+  const cookiesStore = cookies();
+  const isAllowed = cookiesStore.get("dealer");
+
+  if (!isAllowed) {
+    redirect("/users");
+  }
+
   const isOpen = searchParams.isOpen === "true";
   const winner = searchParams.winner || "";
   const id = Number(searchParams?.id) || 0;

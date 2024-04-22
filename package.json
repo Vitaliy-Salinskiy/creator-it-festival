@@ -20,7 +20,7 @@
     "fingerprintjs": "^0.5.3",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.365.0",
-    "next": "14.1.4",
+    "next": "14.2.2",
     "nodemailer": "^6.9.13",
     "otp-generator": "^4.0.1",
     "qrcode.react": "^3.1.0",
