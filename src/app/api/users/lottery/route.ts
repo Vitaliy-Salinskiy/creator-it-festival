@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 
 import { render } from "@react-email/render";
-
 import nodemailer from "nodemailer";
 
-import Email from "@/emails/winner";
-
 import { prisma } from "@/lib/prisma";
+
+import Email from "@/emails/winner";
 
 export const POST = async (req: NextRequest) => {
   const { SMTP_PASSWORD, SMTP_EMAIL, NEXT_PUBLIC_BASE_API_URL } = process.env;
