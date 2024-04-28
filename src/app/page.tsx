@@ -3,7 +3,8 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-[#262534]">
-      <div className="relative p-12">
+      <div className="fixed gradient inset-0 z-0"></div>
+      <div className="relative p-12 z-10">
         <Image
           src="/qr-code.jpg"
           width={500}

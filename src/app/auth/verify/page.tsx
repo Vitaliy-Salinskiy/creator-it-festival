@@ -21,7 +21,8 @@ const VerifyPage = () => {
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-[#262534]">
-      <div className="app-container flex justify-center lg:justify-around items-center">
+      <div className="fixed gradient inset-0 z-0"></div>
+      <div className="app-container flex justify-center lg:justify-around items-center z-10">
         <Image
           className="hidden xl:block"
           src="/verify-image.svg"

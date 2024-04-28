@@ -15,9 +15,7 @@ interface TableProps {
 }
 
 const Table = ({ users, forWinners }: TableProps) => {
-  const [localState, setLocalState] = useState(
-    localStorage.getItem("fingerprintId")
-  );
+  const [localState, setLocalState] = useState<string | null>();
 
   const { fpId, refresh } = useFingerprint(localState ? localState : undefined);
   const userTableRef = useRef<{ place: number; date: string } | null>(null);

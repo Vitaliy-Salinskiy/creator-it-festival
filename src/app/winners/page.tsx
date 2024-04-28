@@ -20,12 +20,13 @@ const WinnersPage = async () => {
 
   return (
     <div className="bg-dark-violet">
+      <div className="fixed gradient inset-0 z-1"></div>
       <div className="app-container">
         <div className="min-h-screen w-full pt-40 flex flex-col items-center gap-[50px]">
-          <h1 className="text-[50px] leading-[60px] font-bold max-w-[500px] text-center text-orange">
+          <h1 className="text-3xl sm:text-5xl leading-[60px] font-bold max-w-[500px] text-center text-orange z-10">
             Переможці Creator Festivale
           </h1>
-          <div className="flex w-full items-center justify-center lg:justify-between gap-12">
+          <div className="flex w-full items-center justify-center lg:justify-between gap-12 z-10">
             <div className="w-full max-w-none lg:max-w-[750px]">
               <Table forWinners users={winners} />
             </div>

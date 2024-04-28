@@ -14,12 +14,13 @@ export const metadata: Metadata = {
 const PrizesPage = () => {
   return (
     <div className="bg-dark-violet">
+      <div className="fixed gradient inset-0 z-0"></div>
       <div className="app-container">
         <div className="min-h-screen w-full flex flex-col items-center gap-[50px] pt-14 pb-5">
-          <h1 className="text-[32px] leading-9 xl:text-[50px] xl:leading-[52px] font-bold text-orange text-center">
+          <h1 className="text-[32px] leading-9 xl:text-[50px] xl:leading-[52px] font-bold text-orange text-center z-10">
             Призи з колеса фортуни
           </h1>
-          <div className="w-full flex justify-center xl:justify-evenly gap-5">
+          <div className="w-full flex justify-center xl:justify-evenly gap-5 z-10">
             <div className="max-w-[280px] md:max-w-[591px] w-full h-full max-h-[735px] overflow-hidden">
               <div>
                 <div className="custom-scrollbar max-h-[610px] w-full flex flex-wrap gap-y-[25px] gap-x-[50px] overflow-y-auto">
