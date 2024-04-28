@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 import Wheel from "@/components/shared/Wheel";
 import Popup from "@/components/shared/Popup";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Creator It Festival | Wheel",
@@ -20,7 +20,7 @@ const WheelPage = async ({
   };
 }) => {
   const cookiesStore = cookies();
-  const isAllowed = cookiesStore.get("dealer");
+  const isAllowed = cookiesStore.get(process.env.NEXT_PUBLIC_WHEEL_PAGE_KEY!);
 
   if (!isAllowed) {
     redirect("/users");

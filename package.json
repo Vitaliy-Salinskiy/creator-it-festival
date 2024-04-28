@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "email": "email dev --dir src/emails"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^4.2.2",
@@ -14,6 +15,9 @@
     "@prisma/client": "^5.12.1",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@react-email/components": "0.0.16",
+    "@react-email/render": "^0.0.12",
+    "@react-email/tailwind": "0.0.15",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -27,6 +31,7 @@
     "react": "^18",
     "react-custom-roulette": "^1.4.1",
     "react-dom": "^18",
+    "react-email": "2.1.1",
     "react-hook-form": "^7.51.3",
     "react-router-dom": "^6.22.3",
     "react-text-transition": "^3.1.0",

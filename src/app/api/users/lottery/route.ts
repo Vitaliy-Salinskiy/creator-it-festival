@@ -1,17 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 
+import { render } from "@react-email/render";
 import nodemailer from "nodemailer";
 
 import { prisma } from "@/lib/prisma";
 
+import Email from "@/emails/winner";
+
 export const POST = async (req: NextRequest) => {
-  const { SMTP_PASSWORD, SMTP_EMAIL } = process.env;
+  const { SMTP_PASSWORD, SMTP_EMAIL, NEXT_PUBLIC_BASE_API_URL } = process.env;
 
   const { prizeName, prizeImage }: { prizeName: string; prizeImage: string } =
     await req.json();
 
-  if (!prizeImage || !prizeName) {
+  if (!prizeImage || !prizeName || !NEXT_PUBLIC_BASE_API_URL) {
     return NextResponse.json({ message: "Bad Request" }, { status: 400 });
   }
 
@@ -41,11 +44,18 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
+    const winnerEmail = render(
+      Email({
+        imageSourceUrl: NEXT_PUBLIC_BASE_API_URL,
+        prizeImg: prizeImage,
+      })
+    );
+
     const mailOptions = {
       from: SMTP_EMAIL,
       to: randomWinner.email,
-      subject: `Hey ${randomWinner.name}, you have won the lottery`,
-      html: `<h1>Congratulations ${randomWinner.name}!</h1><p>You have won the lottery</p>`,
+      subject: `Гей ${randomWinner.name}, ви виграли в лотереї`,
+      html: winnerEmail,
     };
 
     await transporter.sendMail(mailOptions);
@@ -68,6 +78,7 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json({ winner: updatedWinner }, { status: 200 });
   } catch (error) {
+    console.log((error as Error).message);
     return NextResponse.json(
       { message: (error as Error).message },
       { status: 500 }
