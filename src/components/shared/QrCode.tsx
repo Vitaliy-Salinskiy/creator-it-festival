@@ -1,5 +1,5 @@
 import React from 'react';
-import qrPicture from "../../../public/qr-code.jpg";
+import qrPicture from "../../../public/qr-code.svg";
 import Image from 'next/image';
 
 const QrCode = () => {
