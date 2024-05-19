@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 
-import { render } from "@react-email/render";
-import nodemailer from "nodemailer";
-
 import { prisma } from "@/lib/prisma";
 
-import Email from "@/emails/winner";
-
-export const POST = async (req: NextRequest) => {
-  const { SMTP_PASSWORD, SMTP_EMAIL, NEXT_PUBLIC_BASE_API_URL } = process.env;
+export const PUT = async (req: NextRequest) => {
+  const { NEXT_PUBLIC_BASE_API_URL, TELEGRAM_BOT_API_URL } = process.env;
 
   const { prizeName, prizeImage }: { prizeName: string; prizeImage: string } =
     await req.json();
 
-  if (!prizeImage || !prizeName || !NEXT_PUBLIC_BASE_API_URL) {
+  if (
+    !prizeImage ||
+    !prizeName ||
+    !NEXT_PUBLIC_BASE_API_URL ||
+    !TELEGRAM_BOT_API_URL
+  ) {
     return NextResponse.json({ message: "Bad Request" }, { status: 400 });
   }
 
@@ -22,7 +22,6 @@ export const POST = async (req: NextRequest) => {
     const potentialWinners = await prisma.user.findMany({
       where: {
         hasWon: false,
-        emailVerified: true,
       },
     });
 
@@ -36,29 +35,14 @@ export const POST = async (req: NextRequest) => {
     const randomWinner =
       potentialWinners[Math.floor(Math.random() * potentialWinners.length)];
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: SMTP_EMAIL,
-        pass: SMTP_PASSWORD,
+    await fetch(`${TELEGRAM_BOT_API_URL}/notify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({ prizeName, chatId: randomWinner.chatId }),
+      cache: "no-cache",
     });
-
-    const winnerEmail = render(
-      Email({
-        imageSourceUrl: NEXT_PUBLIC_BASE_API_URL,
-        prizeImg: prizeImage,
-      })
-    );
-
-    const mailOptions = {
-      from: SMTP_EMAIL,
-      to: randomWinner.email,
-      subject: `Гей ${randomWinner.name}, ви виграли в лотереї`,
-      html: winnerEmail,
-    };
-
-    await transporter.sendMail(mailOptions);
 
     const updatedWinner = await prisma.user.update({
       where: {

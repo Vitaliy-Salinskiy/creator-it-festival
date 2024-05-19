@@ -4,7 +4,9 @@ import Image from "next/image";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 import { useState } from "react";
+import useWindowSize from "react-use/lib/useWindowSize";
 import { Wheel as WheelComponent } from "react-custom-roulette";
+import Confetti from "react-confetti";
 
 import Timer from "@/components/shared/Timer";
 
@@ -15,14 +17,23 @@ import { User } from "@prisma/client";
 
 import { wheelOptions } from "@/constants";
 
-const Wheel = () => {
+interface WheelProps {
+  users: User[];
+}
+
+const Wheel = ({ users }: WheelProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const { width, height } = useWindowSize();
+
   const [mustSpin, setMustSpin] = useState<boolean>(false);
   const [prizeNumber, setPrizeNumber] = useState<number>(0);
   const [beenSpun, setBeenSpun] = useState<boolean>(true);
+  const [_showConfetti, setShowConfetti] = useState<boolean>(false);
+
+  const [options, setOptions] = useState(wheelOptions);
 
   const handleSpinClick = () => {
     if (beenSpun === false) {
@@ -33,20 +44,21 @@ const Wheel = () => {
       const newPrizeNumber = Math.floor(Math.random() * options.length);
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
+      setShowConfetti(true);
     }
   };
-  const [options, setOptions] = useState(wheelOptions);
 
   const handlePrize = async (prizeOption: any) => {
-    const { id } = prizeOption.value;
-
     try {
-      const res = await fetch("/api/users/lottery", {
-        method: "POST",
+      const { id } = prizeOption.value;
+
+      const res = await fetch(`/api/users/lottery`, {
+        method: "PUT",
         body: JSON.stringify({
           prizeName: prizeOption.value.title,
           prizeImage: prizeOption.value.img,
         }),
+        priority: "high",
       });
 
       const { winner }: { winner: User } = await res.json();
@@ -57,22 +69,30 @@ const Wheel = () => {
         params.set("isOpen", "true");
         params.set("id", `${id}`);
         router.replace(pathname + "?" + params.toString());
+
+        setTimeout(() => {
+          setOptions((prevState: any) => {
+            if (prevState.length > 1) {
+              return prevState.filter((option: any) => option !== prizeOption);
+            }
+            return prevState;
+          });
+        }, 1200);
       }
     } catch (error) {
       console.log((error as Error).message);
     }
-    setTimeout(() => {
-      setOptions((prevState: any) => {
-        if (prevState.length > 1) {
-          return prevState.filter((option: any) => option !== prizeOption);
-        }
-        return prevState;
-      });
-    }, 500);
   };
 
   return (
     <div className="flex flex-col 2xl:flex-row items-center justify-evenly w-full min-h-screen py-10 2xl:px-0">
+      <Confetti
+        numberOfPieces={250}
+        width={width}
+        height={height}
+        gravity={-0.01}
+        initialVelocityY={{ min: height / 1.75, max: 0 }}
+      />
       <div className="fixed gradient inset-0 z-1"></div>
 
       <div
@@ -130,9 +150,10 @@ const Wheel = () => {
         <div className="bg-orange/10 rounded-[10px] p-[14.5px] mt-5 max-w-[350px]">
           <div className="bg-orange/10 rounded-[10px] p-[14.5px]">
             <Button
+              disabled={users.length > 0 ? false : true}
               onClick={handleSpinClick}
               variant="outline"
-              className="bg-orange border-none text-white py-4 text-[20px] leading-6 hover:bg-orange/40 active:scale-95 hover:text-white transition-all ease-in-out w-[291px] h-[58px] rounded-[10px] flex gap-[5px] items-center justify-center"
+              className="disabled:opacity-25 bg-orange border-none text-white py-4 text-[20px] leading-6 hover:bg-orange/40 active:scale-95 hover:text-white transition-all ease-in-out w-[291px] h-[58px] rounded-[10px] flex gap-[5px] items-center justify-center"
             >
               Крутити
               <Separator orientation="vertical" className="h-[12px]" />

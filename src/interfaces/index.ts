@@ -1,8 +1,6 @@
 export interface UserDto {
   name: string;
-  email: string;
-  fingerprintId: string;
-  phoneNumber: string;
+  chatId: number;
 }
 
 export interface ITimer {

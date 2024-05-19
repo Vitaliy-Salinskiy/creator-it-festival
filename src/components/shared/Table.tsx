@@ -2,9 +2,6 @@
 
 import Image from "next/image";
 
-import { useEffect, useRef, useState } from "react";
-import { useFingerprint } from "@/hooks/useFingerprint";
-
 import TableSlot from "./TableSlot";
 
 import { User } from "@prisma/client";
@@ -15,34 +12,6 @@ interface TableProps {
 }
 
 const Table = ({ users, forWinners }: TableProps) => {
-  const [localState, setLocalState] = useState<string | null>();
-
-  const { fpId, refresh } = useFingerprint(localState ? localState : undefined);
-  const userTableRef = useRef<{ place: number; date: string } | null>(null);
-
-  useEffect(() => {
-    if (!localState) {
-      setLocalState(localStorage.getItem("fingerprintId"));
-    }
-    userTableRef.current = null;
-  }, [localState]);
-
-  useEffect(() => {
-    const refreshFn = async () => {
-      await refresh();
-      setLocalState(fpId);
-    };
-
-    if (localState === null && !fpId) {
-      userTableRef.current = null;
-      refreshFn();
-    }
-
-    if (fpId) {
-      setLocalState(fpId);
-    }
-  }, [fpId, localState, refresh]);
-
   return (
     <>
       <div className="w-full h-14 bg-light-violet  rounded-lg flex items-center justify-between p-7 mt-4">
@@ -54,41 +23,31 @@ const Table = ({ users, forWinners }: TableProps) => {
         </div>
       </div>
 
-      {userTableRef.current && (
-        <div className="mt-5 w-full">
-          <TableSlot
-            isCurrent
-            place={userTableRef.current?.place || 0}
-            name="Ви"
-            date={userTableRef.current?.date || "00:00"}
-          />
-        </div>
-      )}
-
       <div className="w-full h-auto mt-10 flex flex-col-reverse gap-5">
-        {users.map((item, index) => {
-          const place = users.length - index;
-          const formattedDate = item.createdAt
-            .toString()
-            .split("T")[1]
-            .slice(0, 5);
+        {users && users.length > 0 ? (
+          users.map((item, index) => {
+            const place = users.length - index;
+            const formattedDate = item.createdAt
+              .toString()
+              .split("T")[1]
+              .slice(0, 5);
 
-          if (localState && item.fingerprintId === localState) {
-            userTableRef.current = { place, date: formattedDate };
-          }
-
-          return (
-            <TableSlot
-              forWinners={forWinners}
-              key={index}
-              date={formattedDate}
-              place={place}
-              name={item.name}
-              prizeImage={item.prizeImage!}
-              isCurrent={item.fingerprintId === localState ? true : false}
-            />
-          );
-        })}
+            return (
+              <TableSlot
+                forWinners={forWinners}
+                key={index}
+                date={formattedDate}
+                place={place}
+                name={item.name}
+                prizeImage={item.prizeImage!}
+              />
+            );
+          })
+        ) : (
+          <h2 className="text-white text-2xl mx-auto">
+            {forWinners ? "Ще немає переможців" : "Ніхто ще не взяв участі"}
+          </h2>
+        )}
       </div>
     </>
   );

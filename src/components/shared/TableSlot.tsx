@@ -4,7 +4,6 @@ interface TableSlotProps {
   name: string;
   place: number;
   date: string;
-  isCurrent?: boolean;
   prizeImage?: string;
   forWinners?: boolean;
 }
@@ -13,15 +12,12 @@ const TableSlot = ({
   place,
   name,
   date,
-  isCurrent,
   prizeImage,
   forWinners,
 }: TableSlotProps) => {
   return (
     <div
-      className={`w-full h-14 bg-light-violet rounded-lg flex items-center justify-between p-7 gap-4 lg:gap-14  2xl:gap-[90px] ${
-        isCurrent && "border border-orange"
-      }`}
+      className={`w-full h-14 bg-light-violet rounded-lg flex items-center justify-between p-7 gap-4 lg:gap-14  2xl:gap-[90px]`}
     >
       <p className="text-lg font-medium text-white">{place}</p>
       <p

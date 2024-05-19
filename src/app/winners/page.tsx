@@ -16,14 +16,14 @@ const WinnersPage = async () => {
   );
   const { users }: { users: User[] } = await response.json();
 
-  const winners = users.filter((user) => user.emailVerified && user.hasWon);
+  const winners = users.filter((user) => user.hasWon);
 
   return (
     <div className="bg-dark-violet">
       <div className="fixed gradient inset-0 z-1"></div>
       <div className="app-container">
-        <div className="min-h-screen w-full pt-40 flex flex-col items-center gap-[50px]">
-          <h1 className="text-3xl sm:text-5xl leading-[60px] font-bold max-w-[500px] text-center text-orange z-10">
+        <div className="min-h-screen w-full pt-40 flex flex-col items-center gap-[20px] md:gap-[50px]">
+          <h1 className="text-3xl sm:text-5xl font-bold max-w-[500px] text-center text-orange z-10">
             Переможці Creator Festivale
           </h1>
           <div className="flex w-full items-center justify-center lg:justify-between gap-12 z-10">
