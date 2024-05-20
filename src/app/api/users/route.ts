@@ -12,12 +12,23 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        chatId: user.chatId,
+      },
+    });
+
+    if (existingUser) {
+      return NextResponse.json(
+        { message: "Ви вже зареєстровані" },
+        { status: 400 }
+      );
+    }
+
     const newUser = await prisma.user.create({
       data: {
-        fingerprintId: user.fingerprintId,
-        email: user.email,
         name: user.name,
-        phoneNumber: user.phoneNumber,
+        chatId: user.chatId,
       },
     });
 
@@ -28,7 +39,7 @@ export const POST = async (req: NextRequest) => {
     revalidatePath("/users", "page");
     revalidatePath("/winners", "page");
 
-    return NextResponse.json({ user }, { status: 201 });
+    return NextResponse.json({ user: newUser }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { message: (error as Error).message },
@@ -41,8 +52,11 @@ export const GET = async (_req: NextRequest) => {
   try {
     const users = await prisma.user.findMany();
 
+    console.log(users);
+
     return NextResponse.json({ users }, { status: 200 });
   } catch (error) {
+    console.log((error as Error).message);
     return NextResponse.json(
       { message: (error as Error).message },
       { status: 500 }

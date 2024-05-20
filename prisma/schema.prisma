@@ -9,11 +9,8 @@ datasource db {
 
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  fingerprintId String    @unique
-  phoneNumber   String    @unique
-  email         String    @unique
-  emailVerified Boolean   @default(false)
-  name          String    @unique
+  name          String  
+  chatId        Int       @unique
   hasWon        Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
