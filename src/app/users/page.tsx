@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 
 const UsersPage = async () => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/users`
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/users`,
+    { cache: "no-store" }
   );
 
   const { users }: { users: User[] } = await response.json();

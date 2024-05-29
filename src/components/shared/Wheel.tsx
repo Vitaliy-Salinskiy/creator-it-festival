@@ -4,6 +4,7 @@ import Image from "next/image";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 import { useState } from "react";
+import { toast } from "react-toastify";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { Wheel as WheelComponent } from "react-custom-roulette";
 import Confetti from "react-confetti";
@@ -17,11 +18,7 @@ import { User } from "@prisma/client";
 
 import { wheelOptions } from "@/constants";
 
-interface WheelProps {
-  users: User[];
-}
-
-const Wheel = ({ users }: WheelProps) => {
+const Wheel = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -31,7 +28,6 @@ const Wheel = ({ users }: WheelProps) => {
   const [mustSpin, setMustSpin] = useState<boolean>(false);
   const [prizeNumber, setPrizeNumber] = useState<number>(0);
   const [beenSpun, setBeenSpun] = useState<boolean>(true);
-  const [_showConfetti, setShowConfetti] = useState<boolean>(false);
 
   const [options, setOptions] = useState(wheelOptions);
 
@@ -44,7 +40,6 @@ const Wheel = ({ users }: WheelProps) => {
       const newPrizeNumber = Math.floor(Math.random() * options.length);
       setPrizeNumber(newPrizeNumber);
       setMustSpin(true);
-      setShowConfetti(true);
     }
   };
 
@@ -60,6 +55,15 @@ const Wheel = ({ users }: WheelProps) => {
         }),
         priority: "high",
       });
+
+      if (res.status === 404) {
+        toast.warning(
+          <p className="text-[0.95rem] pl-1">
+            Нажаль більше немає учасників для розіграшу призів.
+          </p>
+        );
+        return;
+      }
 
       const { winner }: { winner: User } = await res.json();
 
@@ -150,7 +154,6 @@ const Wheel = ({ users }: WheelProps) => {
         <div className="bg-orange/10 rounded-[10px] p-[14.5px] mt-5 max-w-[350px]">
           <div className="bg-orange/10 rounded-[10px] p-[14.5px]">
             <Button
-              disabled={users.length > 0 ? false : true}
               onClick={handleSpinClick}
               variant="outline"
               className="disabled:opacity-25 bg-orange border-none text-white py-4 text-[20px] leading-6 hover:bg-orange/40 active:scale-95 hover:text-white transition-all ease-in-out w-[291px] h-[58px] rounded-[10px] flex gap-[5px] items-center justify-center"

@@ -36,8 +36,8 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ message: "Bad Request" }, { status: 400 });
     }
 
-    revalidatePath("/users", "page");
-    revalidatePath("/winners", "page");
+    revalidatePath("/users");
+    revalidatePath("/winners");
 
     return NextResponse.json({ user: newUser }, { status: 201 });
   } catch (error) {
@@ -51,8 +51,6 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (_req: NextRequest) => {
   try {
     const users = await prisma.user.findMany();
-
-    console.log(users);
 
     return NextResponse.json({ users }, { status: 200 });
   } catch (error) {

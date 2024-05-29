@@ -57,8 +57,8 @@ export const PUT = async (req: NextRequest) => {
       },
     });
 
-    revalidatePath("/users", "page");
-    revalidatePath("/winners", "page");
+    revalidatePath("/users");
+    revalidatePath("/winners");
 
     return NextResponse.json({ winner: updatedWinner }, { status: 200 });
   } catch (error) {
