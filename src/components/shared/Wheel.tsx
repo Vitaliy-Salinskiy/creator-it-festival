@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { User } from "@prisma/client";
 
 import { wheelOptions } from "@/constants";
+import { generateName } from "@/utils";
 
 const Wheel = () => {
   const router = useRouter();
@@ -65,9 +66,9 @@ const Wheel = () => {
 
       const { winner }: { winner: User } = await res.json();
 
-      if (winner.name) {
+      if (winner.id) {
         const params = new URLSearchParams(searchParams.toString());
-        params.set("winner", winner.name);
+        params.set("winner", generateName(winner.firstName, winner?.username));
         params.set("isOpen", "true");
         params.set("id", `${id}`);
         router.replace(pathname + "?" + params.toString());
@@ -79,7 +80,7 @@ const Wheel = () => {
             }
             return prevState;
           });
-        }, 1200);
+        }, 1500);
       }
     } catch (error) {
       console.log((error as Error).message);

@@ -27,7 +27,8 @@ export const POST = async (req: NextRequest) => {
 
     const newUser = await prisma.user.create({
       data: {
-        name: user.name,
+        firstName: user.firstName,
+        username: user?.username,
         chatId: user.chatId,
       },
     });

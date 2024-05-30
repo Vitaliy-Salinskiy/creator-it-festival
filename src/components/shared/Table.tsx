@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import TableSlot from "./TableSlot";
 
+import { generateName } from "@/utils";
+
 import { User } from "@prisma/client";
 
 interface TableProps {
@@ -26,8 +28,8 @@ const Table = ({ users, forWinners }: TableProps) => {
       <div className="w-full h-auto mt-10 flex flex-col-reverse gap-5">
         {users && users.length > 0 ? (
           users.map((item, index) => {
-            const place = users.length - index;
-            const formattedDate = item.createdAt
+            const place: number = users.length - index;
+            const formattedDate: string = item.createdAt
               .toString()
               .split("T")[1]
               .slice(0, 5);
@@ -38,13 +40,13 @@ const Table = ({ users, forWinners }: TableProps) => {
                 key={index}
                 date={formattedDate}
                 place={place}
-                name={item.name}
+                name={generateName(item.firstName, item.username)}
                 prizeImage={item.prizeImage!}
               />
             );
           })
         ) : (
-          <h2 className="text-white text-2xl mx-auto">
+          <h2 className="text-white text-xl md:text-2xl mx-auto text-center">
             {forWinners ? "Ще немає переможців" : "Ніхто ще не взяв участі"}
           </h2>
         )}

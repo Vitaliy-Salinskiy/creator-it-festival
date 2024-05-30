@@ -96,6 +96,24 @@ body {
   }
 }
 
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #3f3d56;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f5a006;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b67703;
+}
+
 input[type="text"]:last-child {
   letter-spacing: 0;
 }
@@ -110,10 +128,6 @@ input[type="text"]:last-child {
 .gradient {
   background: radial-gradient(#ffffff 1%, #1c1e2a 15%);
   filter: blur(6000px);
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 14px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {

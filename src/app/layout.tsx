@@ -4,6 +4,9 @@ import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/logo.png",
+  },
   title: "Creator It Festival | Home",
   description: "Home page",
 };
