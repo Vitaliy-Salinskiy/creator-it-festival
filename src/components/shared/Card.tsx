@@ -19,9 +19,11 @@ const Card = ({ card }: { card: CardProps }) => {
           />
         </div>
       </div>
-      <h3 className="text-xl font-bold text-orange mt-[15px]">{card.title}</h3>
+      <h3 className="text-xl font-bold tracking-tight text-orange mt-[15px]">
+        {card.title}
+      </h3>
       {card.description && (
-        <p className="max-w-[210px] text-white text-base mt-2.5">
+        <p className="max-w-[210px] text-white text-base tracking-tight mt-2.5">
           {card.description}
         </p>
       )}

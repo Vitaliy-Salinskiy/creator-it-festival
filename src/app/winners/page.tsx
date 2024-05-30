@@ -4,6 +4,7 @@ import Image from "next/image";
 import Table from "@/components/shared/Table";
 
 import { User } from "@prisma/client";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Creator It Festival | Winners",
@@ -30,6 +31,12 @@ const WinnersPage = async () => {
           <div className="flex w-full items-center justify-center lg:justify-between gap-12 z-10">
             <div className="w-full max-w-none lg:max-w-[750px]">
               <Table forWinners users={winners} />
+              <Link
+                href="/users"
+                className="mt-10 mx-auto flex gap-2.5 text-base lg:text-2xl font-semibold text-white py-[10px] lg:py-[16px] max-w-[360px] rounded-lg items-center justify-center bg-orange"
+              >
+                Таблиця учасників
+              </Link>
             </div>
             <div className="justify-end self-start w-full mt-24 sticky top-1/3 h-full hidden lg:flex">
               <div className="relative w-full max-w-[500px] h-[300px] max-h-[300px]">

@@ -9,8 +9,6 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import { Wheel as WheelComponent } from "react-custom-roulette";
 import Confetti from "react-confetti";
 
-import Timer from "@/components/shared/Timer";
-
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
@@ -146,10 +144,6 @@ const Wheel = () => {
         <h1 className="text-5xl max-w-[399px] font-bold text-orange">
           Рулетка Creator-Festival
         </h1>
-
-        <div className="mt-[30px]">
-          <Timer />
-        </div>
 
         <div className="bg-orange/10 rounded-[10px] p-[14.5px] mt-5 max-w-[350px]">
           <div className="bg-orange/10 rounded-[10px] p-[14.5px]">
