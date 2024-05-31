@@ -6,7 +6,7 @@ export default function Home() {
       <div className="fixed gradient inset-0 z-0"></div>
       <div className="relative p-12 z-10">
         <Image
-          src="/qr-code.png"
+          src="/qr-code.svg"
           width={500}
           height={500}
           className="z-10 relative mb-30 rounded-3xl p-0 m-0 box-border"

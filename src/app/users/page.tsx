@@ -32,7 +32,7 @@ const UsersPage = async () => {
         <button className="w-full lg:w-80 h-14 bg-orange rounded-lg flex items-center justify-center mt-[50px]">
           <Link
             href="/prizes"
-            className="w-28 h-auto flex items-center justify-around"
+            className="w-full h-auto flex items-center justify-center gap-3"
           >
             <p className="text-xl text-white font-medium">Призи</p>
             <div className="relative h-[30px] w-[30px]">

@@ -21,9 +21,9 @@ const PrizesPage = () => {
             Призи з колеса фортуни
           </h1>
           <div className="w-full flex justify-center xl:justify-evenly gap-5 z-10">
-            <div className="max-w-[280px] md:max-w-[591px] w-full h-full max-h-[735px] overflow-hidden">
+            <div className="max-w-[295px] md:max-w-[591px] w-full h-full max-h-[735px] overflow-hidden">
               <div>
-                <div className="custom-scrollbar max-h-[610px] w-full flex flex-wrap gap-y-[25px] gap-x-[50px] overflow-y-auto">
+                <div className="custom-scrollbar max-h-[610px] w-full flex flex-wrap gap-[1.5625rem] overflow-y-auto">
                   {wheelOptions.map((option: any, index: number) => (
                     <Card key={index} card={option.value} />
                   ))}
