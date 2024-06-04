@@ -21,9 +21,9 @@ const TableSlot = ({
     >
       <p className="text-lg font-medium text-white">{place}</p>
       <p
-        className={`text-lg font-medium text-white flex flex-1 ${
-          forWinners ? "justify-start" : "justify-center"
-        }`}
+        className={`text-lg text-center font-medium text-white flex flex-1 truncate whitespace-normal ${
+          forWinners && "ml-5 lg:ml-5"
+        } justify-center`}
       >
         {name}
       </p>

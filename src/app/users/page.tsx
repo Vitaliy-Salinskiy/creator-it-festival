@@ -20,7 +20,7 @@ const UsersPage = async () => {
   const { users }: { users: User[] } = await response.json();
 
   return (
-    <section className="w-full bg-dark-violet min-h-screen h-auto flex items-center justify-center p-2">
+    <section className="w-full bg-dark-violet min-h-screen h-auto flex items-center justify-center p-2 py-10 md:py-8">
       <div className="fixed gradient inset-0 z-1"></div>
       <div className="w-10/12 h-auto flex flex-col items-center pt-2 z-10">
         <h2 className="text-3xl text-orange font-medium text-center">
