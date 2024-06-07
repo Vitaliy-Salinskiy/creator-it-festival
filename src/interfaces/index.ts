@@ -1,6 +1,7 @@
 export interface UserDto {
   firstName: string;
   username?: string;
+  phoneNumber: string;
   chatId: number;
 }
 

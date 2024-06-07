@@ -11,6 +11,7 @@ model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   firstName     String
   username      String?  
+  phoneNumber   String
   chatId        Int       @unique
   hasWon        Boolean   @default(false)
   createdAt     DateTime  @default(now())

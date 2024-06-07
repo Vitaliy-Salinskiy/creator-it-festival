@@ -29,6 +29,7 @@ export const POST = async (req: NextRequest) => {
       data: {
         firstName: user.firstName,
         username: user?.username,
+        phoneNumber: user?.phoneNumber,
         chatId: user.chatId,
         createdAt: new Date(Date.now() + 2 * 60 * 60 * 1000),
       },

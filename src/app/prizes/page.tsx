@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import Card from "@/components/shared/Card";
 
-import { wheelOptions } from "@/constants";
+import { prizesOptions } from "@/constants";
 
 export const metadata: Metadata = {
   title: "Creator It Festival | Prizes",
@@ -24,7 +24,7 @@ const PrizesPage = () => {
             <div className="max-w-[295px] md:max-w-[591px] w-full h-full max-h-[735px] overflow-hidden">
               <div>
                 <div className="custom-scrollbar max-h-[610px] w-full flex flex-wrap gap-[1.5625rem] overflow-y-auto">
-                  {wheelOptions.map((option: any, index: number) => (
+                  {prizesOptions.map((option: any, index: number) => (
                     <Card key={index} card={option.value} />
                   ))}
                 </div>
