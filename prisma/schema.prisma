@@ -19,5 +19,5 @@ model User {
   prizeName     String?
   prizeImage    String?
   prizeWinDate  DateTime?
-  prizeClaimed  Boolean?
+  prizeClaimed  Boolean? @default(false)
 }

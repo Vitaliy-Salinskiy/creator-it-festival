@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { Wheel as WheelComponent } from "react-custom-roulette";
@@ -16,6 +16,7 @@ import { User } from "@prisma/client";
 
 import { wheelOptions } from "@/constants";
 import { generateName } from "@/utils";
+import { useLotteryStore } from "@/store/lotteryStore";
 
 const Wheel = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const Wheel = () => {
   const searchParams = useSearchParams();
 
   const { width, height } = useWindowSize();
+  const { setPrizeId, prizesId, remove, setRemove } = useLotteryStore();
 
   const [mustSpin, setMustSpin] = useState<boolean>(false);
   const [prizeNumber, setPrizeNumber] = useState<number>(0);
@@ -67,25 +69,35 @@ const Wheel = () => {
       const { winner }: { winner: User } = await res.json();
 
       if (winner.id) {
+        setPrizeId(id);
         const params = new URLSearchParams(searchParams.toString());
         params.set("winner", generateName(winner.firstName, winner?.username));
+        params.set("winnerId", winner.id);
         params.set("isOpen", "true");
+        params.set("chatId", `${winner.chatId}`);
         params.set("id", `${id}`);
         router.replace(pathname + "?" + params.toString());
-
-        setTimeout(() => {
-          setOptions((prevState: any) => {
-            if (prevState.length > 1) {
-              return prevState.filter((option: any) => option !== prizeOption);
-            }
-            return prevState;
-          });
-        }, 1500);
       }
     } catch (error) {
       console.log((error as Error).message);
     }
   };
+
+  const removePrizeFromWheel = (prizeId: number) => {
+    setOptions((prevState: any) => {
+      if (prevState.length > 1) {
+        return prevState.filter((option: any) => option.value.id !== prizeId);
+      }
+      return prevState;
+    });
+  };
+
+  useEffect(() => {
+    if (remove && prizesId) {
+      removePrizeFromWheel(prizesId);
+      setRemove(false);
+    }
+  }, [remove, prizesId, setRemove]);
 
   return (
     <div className="flex flex-col 2xl:flex-row items-center justify-evenly w-full min-h-screen py-10 2xl:px-0">

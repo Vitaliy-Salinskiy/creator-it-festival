@@ -6,8 +6,6 @@ import { redirect } from "next/navigation";
 import Wheel from "@/components/shared/Wheel";
 import Popup from "@/components/shared/Popup";
 
-import { User } from "@prisma/client";
-
 export const metadata: Metadata = {
   title: "Creator It Festival | Wheel",
   description: "Wheel page",
@@ -20,6 +18,8 @@ const WheelPage = async ({
     isOpen?: string;
     id?: string;
     winner?: string;
+    winnerId?: string;
+    chatId?: string;
   };
 }) => {
   const cookiesStore = cookies();
@@ -33,11 +33,19 @@ const WheelPage = async ({
   const isOpen = searchParams.isOpen === "true";
   const winner = searchParams.winner || "";
   const id = Number(searchParams?.id) || 0;
+  const winnerId = searchParams?.winnerId || "";
+  const chatId = searchParams?.chatId || "";
 
   return (
     <div className="bg-dark-violet">
       <div className="w-full mx-auto max-w-screen-2xl">
-        <Popup cardId={id} isOpen={isOpen} winnerName={winner} />
+        <Popup
+          cardId={id}
+          isOpen={isOpen}
+          winnerName={winner}
+          chatId={Number(chatId)}
+          winnerId={winnerId}
+        />
         <Wheel />
       </div>
       <ToastContainer

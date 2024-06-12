@@ -2,19 +2,37 @@
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-const PopupButton = () => {
+interface PopupButtonProps {
+  chatId: number | null;
+}
+
+const PopupButton = ({ chatId }: PopupButtonProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const deleteSearchParam = () => {
+  const deleteSearchParam = async () => {
     const params = new URLSearchParams(searchParams);
 
     params.delete("isOpen");
     params.delete("id");
     params.delete("winner");
+    params.delete("winnerId");
+    params.delete("chatId");
 
     router.replace(pathname + "?" + params.toString());
+
+    if (chatId) {
+      await fetch(`${process.env.NEXT_PUBLIC_TELEGRAM_BOT_API_URL}/absent`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chatId,
+        }),
+      });
+    }
   };
 
   return (

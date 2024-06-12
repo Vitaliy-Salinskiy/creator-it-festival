@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export const PUT = async (req: NextRequest) => {
-  const { NEXT_PUBLIC_BASE_API_URL, TELEGRAM_BOT_API_URL } = process.env;
+  const { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_TELEGRAM_BOT_API_URL } =
+    process.env;
 
   const { prizeName, prizeImage }: { prizeName: string; prizeImage: string } =
     await req.json();
@@ -13,7 +14,7 @@ export const PUT = async (req: NextRequest) => {
     !prizeImage ||
     !prizeName ||
     !NEXT_PUBLIC_BASE_API_URL ||
-    !TELEGRAM_BOT_API_URL
+    !NEXT_PUBLIC_TELEGRAM_BOT_API_URL
   ) {
     return NextResponse.json({ message: "Bad Request" }, { status: 400 });
   }
@@ -21,6 +22,7 @@ export const PUT = async (req: NextRequest) => {
   try {
     const potentialWinners = await prisma.user.findMany({
       where: {
+        prizeClaimed: false,
         hasWon: false,
       },
     });
@@ -35,26 +37,26 @@ export const PUT = async (req: NextRequest) => {
     const randomWinner =
       potentialWinners[Math.floor(Math.random() * potentialWinners.length)];
 
-    await fetch(`${TELEGRAM_BOT_API_URL}/notify`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prizeName, chatId: randomWinner.chatId }),
-      cache: "no-cache",
-    });
-
     const updatedWinner = await prisma.user.update({
       where: {
         id: randomWinner.id,
       },
       data: {
-        hasWon: true,
         prizeImage,
         prizeName,
         prizeClaimed: false,
+        hasWon: true,
         prizeWinDate: new Date(),
       },
+    });
+
+    await fetch(`${NEXT_PUBLIC_TELEGRAM_BOT_API_URL}/notify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prizeName, chatId: updatedWinner.chatId }),
+      cache: "no-cache",
     });
 
     revalidatePath("/users");
