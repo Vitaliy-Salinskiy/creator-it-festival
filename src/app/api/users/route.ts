@@ -31,7 +31,7 @@ export const POST = async (req: NextRequest) => {
         username: user?.username,
         phoneNumber: user?.phoneNumber,
         chatId: user.chatId,
-        createdAt: new Date(Date.now() + 2 * 60 * 60 * 1000),
+        createdAt: new Date(Date.now() + 3 * 60 * 60 * 1000),
         prizeClaimed: false,
       },
     });

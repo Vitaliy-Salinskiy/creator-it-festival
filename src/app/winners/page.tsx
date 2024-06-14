@@ -18,7 +18,7 @@ const WinnersPage = async () => {
   );
   const { users }: { users: User[] } = await response.json();
 
-  const winners = users.filter((user) => user.hasWon);
+  const winners = users.filter((user) => user.prizeClaimed);
 
   return (
     <div className="bg-dark-violet">
