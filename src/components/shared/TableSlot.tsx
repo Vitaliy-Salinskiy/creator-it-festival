@@ -35,7 +35,9 @@ const TableSlot = ({
           alt={place + prizeImage + name}
         />
       )}
-      <p className="text-lg font-medium text-white">{date}</p>
+      <p className={`text-lg font-medium text-white ${forWinners && "hidden"}`}>
+        {date}
+      </p>
     </div>
   );
 };
